@@ -1,0 +1,25 @@
+# Compiled source #
+##################
+*.pyc
+
+# Local settings #
+##################
+*local.py
+
+# OS generated files #
+######################
+.DS_Store
+.DS_Store?
+
+# Data files #
+##############
+data/*.*
+*.json
+*.csv
+*.xls*
+*.txt
+.ipynb_checkpoints/*.*
+
+# Security Files #
+##################
+security/*.*
