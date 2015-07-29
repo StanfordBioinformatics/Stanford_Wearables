@@ -19,6 +19,33 @@ Args     :
 Returns  : 
 """
 
+def set_up_logging(hard_drive):
+    log_path = os.path.join(LOG_DIR, hard_drive, "output.log")
+    logging.basicConfig(filename=log_path,
+                            format='%(asctime)s %(name)-12s %(levelname)-8s %(message)s', level=logging.INFO)
+
+def parse_command_line():
+    parser = argparse.ArgumentParser(
+        description = 'This script transfers data from a hard drive to a local computing cluster.')
+
+	parser.add_argument('--infile', '-i', 
+		help="A tab delimited file that needs processing")
+	parser.add_argument('--log', '-v', 
+		help="An output file containing JSON objects to post")
+	parser.add_argument('--mode', '-m',default="dev",
+		help="Determines which Syapse LIMS host URL to connect to. Default is %(default)s.")
+	parser.add_argument('--email', '-e',
+		help="Determins whom to send email to.")
+
+    options = parser.parse_args()
+
+	INFILE = args.infile
+	LOG = args.log
+	MODE = args.mode
+	EMAIL = args.email
+
+    return options
+
 class ETL:
 	def __init__(self):
 		print "ETL Init"
@@ -52,17 +79,7 @@ class OutcomesTest(unittest.TestCase):
 if __name__ == "__main__":
 	start_time = time.time()
 
-	parser = argparse.ArgumentParser()
-	parser.add_argument('--infile', '-i', help="A tab delimited file that needs processing")
-	parser.add_argument('--log', '-v', help="An output file containing JSON objects to post")
-	parser.add_argument('--mode', '-m',default="dev",help="Determines which Syapse LIMS host URL to connect to. Default is %(default)s.")
-	parser.add_argument('--email', '-e',help="Determins whom to send email to.")
-	args = parser.parse_args()
-
-	INFILE = args.infile
-	LOG = args.log
-	MODE = args.mode
-	EMAIL = args.email
+	options = parse_command_line()
 
 	etl = ETL()
 	notification = Notification(EMAIL)
